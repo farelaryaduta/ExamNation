@@ -137,4 +137,6 @@ CREATE TABLE exam_activity_logs (
 );
 
 ALTER TABLE exams ADD COLUMN exam_stat ENUM('draft', 'published') NOT NULL DEFAULT 'draft';
+
+ALTER TABLE examnation_db.users MODIFY COLUMN role ENUM('admin', 'peserta') NOT NULL DEFAULT 'peserta';
 ```

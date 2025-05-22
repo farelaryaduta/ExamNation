@@ -7,5 +7,18 @@ class UserModel extends Model
 {
     protected $table = 'users';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'email', 'password', 'role', 'created_at'];
+    protected $allowedFields = ['name', 'email', 'password', 'role'];
+    protected $useTimestamps = true;
+    protected $createdField = 'created_at';
+    protected $updatedField = '';
+
+    protected $beforeInsert = ['setDefaultRole'];
+    
+    protected function setDefaultRole(array $data)
+    {
+        if (!isset($data['data']['role'])) {
+            $data['data']['role'] = 'peserta';
+        }
+        return $data;
+    }
 }

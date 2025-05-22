@@ -6,6 +6,11 @@ use CodeIgniter\Controller;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        helper(['cookie', 'url']);
+    }
+
     public function register()
     {
         return view('auth/register');
@@ -19,17 +24,18 @@ class AuthController extends Controller
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'role' => $this->request->getPost('role')
+            'role' => 'peserta' // Force role to be 'peserta' for security
         ];
 
         $userModel->insert($data);
-        return redirect()->to('/login');
+        return redirect()->to('/login')->with('message', 'Registration successful! Please login.');
     }
 
     public function login()
     {
         return view('auth/login');
     }
+
     public function auth()
     {
         $userModel = new UserModel();
@@ -48,7 +54,7 @@ class AuthController extends Controller
             session()->start();
 
             // Set session data
-            $isAdmin = ($user['role'] == 'admin');
+            $isAdmin = ($user['role'] === 'admin');
             $sessionData = [
                 'user_id' => $user['id'],
                 'user_name' => $user['name'],
@@ -66,24 +72,25 @@ class AuthController extends Controller
 
             // Set remember-me cookie if requested
             if ($this->request->getPost('remember') == '1') {
-                set_cookie('remember_token', $user['id'], 30 * 24 * 60 * 60); // 30 days
+                $this->response->setCookie('remember_token', $user['id'], 30 * 24 * 60 * 60); // 30 days
             }
 
-            // Cek role dan arahkan ke halaman yang sesuai
+            // Redirect based on role
             if ($isAdmin) {
                 return redirect()->to('/admin/dashboard');
             } else {
                 return redirect()->to('/peserta/dashboard');
             }
-        } else {
-            return redirect()->to('/login')->with('error', 'Email atau password salah');
         }
+
+        return redirect()->to('/login')->with('error', 'Email atau password salah');
     }
 
     public function logout()
     {
         // Clear the remember-me cookie if it exists
-        if (get_cookie('remember_token')) {
+        $rememberToken = get_cookie('remember_token');
+        if ($rememberToken) {
             delete_cookie('remember_token');
         }
 

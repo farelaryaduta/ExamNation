@@ -13,8 +13,11 @@ class Peserta extends BaseController
     public function dashboard()
     {
         $session = session();
-        if (!$session->has('user_id')) {
-            return redirect()->to('/login');
+        
+        // Check if user is logged in and is a participant/peserta
+        if (!$session->has('user_id') || 
+            ($session->get('user_role') !== 'peserta' && $session->get('user_role') !== 'participant')) {
+            return redirect()->to('/login')->with('error', 'Please login as a participant to access this page');
         }
 
         $userId = $session->get('user_id');

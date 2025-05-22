@@ -33,9 +33,9 @@ abstract class BaseController extends Controller
      * class instantiation. These helpers will be available
      * to all other controllers that extend BaseController.
      *
-     * @var list<string>
+     * @var array
      */
-    protected $helpers = [];
+    protected $helpers = ['cookie', 'url', 'form'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.

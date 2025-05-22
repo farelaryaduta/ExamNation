@@ -54,7 +54,7 @@
                         <label for="role">Pilih Peran</label>
                         <div class="select-wrapper">
                             <select id="role" name="role">
-                                <option value="participant">Peserta</option>
+                                <option value="peserta">Peserta</option>
                                 <!-- <option value="admin">Admin</option> -->
                             </select>
                         </div>

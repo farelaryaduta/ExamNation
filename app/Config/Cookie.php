@@ -14,20 +14,17 @@ class Cookie extends BaseConfig
      *
      * Set a cookie name prefix if you need to avoid collisions.
      */
-    public string $prefix = '';
+    public string $prefix = 'examnation_';
 
     /**
      * --------------------------------------------------------------------------
      * Cookie Expires Timestamp
      * --------------------------------------------------------------------------
      *
-     * Default expires timestamp for cookies. Setting this to `0` will mean the
-     * cookie will not have the `Expires` attribute and will behave as a session
-     * cookie.
-     *
-     * @var DateTimeInterface|int|string
+     * Default expires timestamp for cookies. Setting this to 0 will mean the cookie
+     * expires when the browser closes.
      */
-    public $expires = 0;
+    public int $expires = 0;
 
     /**
      * --------------------------------------------------------------------------
@@ -43,7 +40,7 @@ class Cookie extends BaseConfig
      * Cookie Domain
      * --------------------------------------------------------------------------
      *
-     * Set to `.your-domain.com` for site-wide cookies.
+     * Set to .your-domain.com for site-wide cookies.
      */
     public string $domain = '';
 
@@ -61,7 +58,7 @@ class Cookie extends BaseConfig
      * Cookie HTTPOnly
      * --------------------------------------------------------------------------
      *
-     * Cookie will only be accessible via HTTP(S) (no JavaScript).
+     * Cookie will only be accessible through the HTTP protocol.
      */
     public bool $httponly = true;
 
@@ -81,9 +78,9 @@ class Cookie extends BaseConfig
      * - `Cookie::SAMESITE_LAX`
      * - `Cookie::SAMESITE_STRICT`
      *
-     * Defaults to `Lax` for compatibility with modern browsers. Setting `''`
-     * (empty string) means default SameSite attribute set by browsers (`Lax`)
-     * will be set on cookies. If set to `None`, `$secure` must also be set.
+     * Defaults to 'Lax' for compatibility with modern browsers. Setting ''
+     * means no SameSite attribute will be set on cookies. If set to 'None',
+     * `$secure` must also be set.
      *
      * @phpstan-var 'None'|'Lax'|'Strict'|''
      */
